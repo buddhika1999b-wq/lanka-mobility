@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanka Mobility GIS - Spatial Intelligence Platform</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        #map { height: 100vh; width: 100vw; z-index: 1; }
+        
+        /* Floating Glassmorphism Cards */
+        .floating-card {
+            position: absolute; z-index: 1000; background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px); border-radius: 12px; padding: 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.4);
+        }
+        .header-card { top: 20px; left: 20px; width: 340px; }
+        .control-card { top: 20px; right: 20px; width: 280px; }
+        .badge { background: #2563eb; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
+        .layer-toggle { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 13px; }
+    </style>
+</head>
+<body>
 
+    <!-- Floating Navigation Bar -->
+    <div class="floating-card header-card">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-map-location-dot" style="font-size: 24px; color: #2563eb;"></i>
+            <div>
+                <h3 style="font-size: 16px; font-weight: 700;">Lanka Mobility GIS <span class="badge">PRO</span></h3>
+                <p style="font-size: 11px; color: #666;">Nationwide Spatial Intelligence System</p>
+            </div>
+        </div>
+        <hr style="margin: 12px 0; border: none; border-top: 1px solid #eee;">
+        <input type="text" placeholder="🔍 Search Bus Stop, Road, District..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 13px;">
+    </div>
+
+    <!-- Floating Map Controls -->
+    <div class="floating-card control-card">
+        <h4 style="font-size: 13px; margin-bottom: 8px;">Spatial Layers</h4>
+        <div class="layer-toggle">
+            <span><i class="fa-solid fa-bus" style="color: #2563eb;"></i> Bus Routes & Hubs</span>
+            <input type="checkbox" checked>
+        </div>
+        <div class="layer-toggle">
+            <span><i class="fa-solid fa-triangle-exclamation" style="color: #dc2626;"></i> Elephant Hazards</span>
+            <input type="checkbox" checked>
+        </div>
+        <div class="layer-toggle">
+            <span><i class="fa-solid fa-road" style="color: #d97706;"></i> Citizen Road Reports</span>
+            <input type="checkbox" checked>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Centered on Sri Lanka Center (Anuradhapura/Dambulla View)
+        var map = L.map('map', { zoomControl: false }).setView([7.8731, 80.7718], 8);
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Dark/Clean Street Map View
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© Lanka Mobility GIS'
+        }).addTo(map);
+
+        // Major Sri Lankan Cities
+        L.marker([6.9271, 79.8612]).addTo(map).bindPopup("<b>Colombo Transit Hub</b>");
+        L.marker([7.2906, 80.6337]).addTo(map).bindPopup("<b>Kandy Central Terminal</b>");
+        L.marker([8.3114, 80.4037]).addTo(map).bindPopup("<b>Anuradhapura Junction</b>");
+    </script>
+</body>
+</html>
